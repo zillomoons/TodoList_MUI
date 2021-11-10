@@ -1,3 +1,4 @@
+import { v1 } from "uuid";
 import {FilterValues, TodoListType} from "../App";
 
 
@@ -26,8 +27,8 @@ export const RemoveTodoListAC = (todoID: string) => {
 export const UpdateTodoListAC = (todoID: string, title: string) => {
     return {type: "UPDATE-TODOLIST-TITLE", todoID, title} as const;
 }
-export const AddNewTodoAC = (todoID: string, title: string) => {
-    return {type: "ADD-NEW-TODOLIST", todoID, title} as const;
+export const AddNewTodoAC = ( title: string) => {
+    return {type: "ADD-NEW-TODOLIST", todoID: v1(), title} as const;
 }
 export const ChangeFilterAC = (todoID: string, filter: FilterValues) => {
     return {type: "CHANGE-FILTER", todoID, filter} as const;

@@ -32,8 +32,7 @@ export const App = () => {
         dispatch(RemoveTodoListAC(todoID));
     }
     const addNewTodoList = (title: string) => {
-        let newTodoID = v1();
-        dispatch(AddNewTodoAC(newTodoID, title));
+        dispatch(AddNewTodoAC(title));
     }
     const editTodoTitle = (todoID: string, title: string) => {
         dispatch(UpdateTodoListAC(todoID, title));
