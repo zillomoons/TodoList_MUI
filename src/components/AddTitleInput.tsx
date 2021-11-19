@@ -6,7 +6,8 @@ type PropsType = {
     callback: (value: string) => void
 }
 
-export const AddTitleInput = ({callback}: PropsType) => {
+export const AddTitleInput = React.memo(({callback}: PropsType) => {
+    console.log('AddTitleInput rendered')
     const [newTitle, setNewTitle] = useState('')
     const [error, setError] = useState(false)
     const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
@@ -35,4 +36,4 @@ export const AddTitleInput = ({callback}: PropsType) => {
             <Icon onClick={addTask} color="primary"><AddCircle /></Icon>
         </Grid>
     )
-}
+})

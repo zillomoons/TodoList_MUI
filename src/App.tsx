@@ -1,6 +1,5 @@
-import React from "react";
-import './App.css'
-import {v1} from "uuid";
+import React, {useCallback} from "react";
+import './App.css';
 import {TodoList} from "./TodoList";
 import {AddTitleInput} from "./components/AddTitleInput";
 import {Header} from "./components/Header";
@@ -22,26 +21,28 @@ export type TasksType = {
 }
 export type TodoListType = { id: string, title: string, filter: FilterValues }
 
-export const App = () => {
-
+export const App = React.memo(() => {
+    console.log('App rendered')
     const dispatch = useDispatch();
     const todoLists = useSelector<AppRootState, TodoListType[]>(state => state.todoLists);
+    const tasks = useSelector<AppRootState, TasksType>(state => state.tasks);
 
     //function for todoLists
-    const removeTodoList = (todoID: string) => {
+    const removeTodoList = useCallback((todoID: string) => {
         dispatch(RemoveTodoListAC(todoID));
-    }
-    const addNewTodoList = (title: string) => {
+    }, [dispatch])
+    const addNewTodoList = useCallback((title: string) => {
         dispatch(AddNewTodoAC(title));
-    }
-    const editTodoTitle = (todoID: string, title: string) => {
+    }, [dispatch])
+    const editTodoTitle = useCallback((todoID: string, title: string) => {
         dispatch(UpdateTodoListAC(todoID, title));
-    }
+    }, [dispatch])
 
     const mappedTodoLists = todoLists.map(todo => {
             return <Grid item  key={todo.id}>
                 <Paper style={{padding: '20px'}}>
                     <TodoList title={todo.title}
+                              tasks={tasks[todo.id]}
                               todoID={todo.id}
                               removeTodoList={() => removeTodoList(todo.id)}
                               editTodoTitle={(title) => editTodoTitle(todo.id, title)}
@@ -64,4 +65,4 @@ export const App = () => {
             </Container>
         </div>
     )
-}
+})

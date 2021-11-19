@@ -2,7 +2,7 @@ import * as React from 'react';
 import {Checkbox, IconButton, Paper} from "@mui/material";
 import {SpanWithEditMode} from "./SpanWithEditMode";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {ChangeEvent} from "react";
+import {ChangeEvent, useCallback} from "react";
 
 type PropsType = {
     changeTaskStatus: (isDone: boolean) => void
@@ -12,10 +12,10 @@ type PropsType = {
     title: string
 }
 
-export const Task = ({editTaskTitle, changeTaskStatus, removeTask, isDone, title}: PropsType) => {
-    const onChangeStatus = (e: ChangeEvent<HTMLInputElement>) => {
+export const Task = React.memo(({editTaskTitle, changeTaskStatus, removeTask, isDone, title}: PropsType) => {
+    const onChangeStatus = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         changeTaskStatus(e.currentTarget.checked)
-    }
+    }, [changeTaskStatus]) ;
     return (
         <Paper className={isDone ? 'is-done' : ''}
                style={{margin: '5px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
@@ -26,4 +26,4 @@ export const Task = ({editTaskTitle, changeTaskStatus, removeTask, isDone, title
             </IconButton>
         </Paper>
     );
-}
+})

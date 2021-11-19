@@ -6,7 +6,8 @@ type PropsType = {
     callback: (value: string)=>void
 }
 
-export const SpanWithEditMode = ({title, callback}: PropsType) => {
+export const SpanWithEditMode = React.memo(({title, callback}: PropsType) => {
+    console.log(title + ' spanWithEditMode')
     const [editMode, setEditMode] = useState(false)
     const [value, setValue] = useState('')
 
@@ -30,4 +31,4 @@ export const SpanWithEditMode = ({title, callback}: PropsType) => {
                      onKeyPress={onKeyPressHandler} onBlur={deactivateEditMode}
                      autoFocus size="small"/>
         : <span onDoubleClick={activateEditMode}>{title}</span>
-}
+})

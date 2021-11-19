@@ -8,8 +8,8 @@ type PropsType={
     filter?: FilterValues
 }
 
-export const MyButton = ({name, callback, ...props}:PropsType) =>{
+export const MyButton = React.memo(({name, callback, ...props}:PropsType) =>{
     return <>
         <Button size={'small'} variant={ props.filter === name? 'outlined' : 'text'} onClick={callback}>{name}</Button>
     </>
-}
+})

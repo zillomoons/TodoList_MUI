@@ -56,7 +56,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-export const Header = () => {
+export const Header = React.memo(() => {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
         React.useState<null | HTMLElement>(null);
@@ -231,4 +231,4 @@ export const Header = () => {
             {renderMenu}
         </Box>
     )
-}
+})

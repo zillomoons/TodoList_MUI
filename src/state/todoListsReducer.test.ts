@@ -36,9 +36,8 @@ test('todolist reducer should update title of correct todolist', ()=>{
 })
 test('todolist reducer should add new todolist with correct title', ()=>{
     const newTitle = 'Favourite food'
-    const newTodoID = v1();
 
-    const endState = todoListsReducer(startState, AddNewTodoAC(newTodoID, newTitle))
+    const endState = todoListsReducer(startState, AddNewTodoAC( newTitle))
 
     expect(endState.length).toBe(3)
     expect(endState[0].title).toBe('Favourite food')

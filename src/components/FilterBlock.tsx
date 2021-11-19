@@ -3,17 +3,18 @@ import {Grid} from "@mui/material";
 import { FilterValues } from "../App";
 import {ChangeFilterAC} from "../state/todoListsReducer";
 import {useDispatch} from "react-redux";
+import React, {useCallback} from "react";
 
 type PropsType={
     filter: FilterValues
     todoID: string
 }
 
-export const FilterBlock = ({filter, todoID}: PropsType) => {
+export const FilterBlock = React.memo(({filter, todoID}: PropsType) => {
     const dispatch = useDispatch();
-    const changeFilter = (filter: FilterValues) => {
+    const changeFilter = useCallback((filter: FilterValues) => {
         dispatch(ChangeFilterAC(todoID, filter));
-    }
+    }, [dispatch, todoID])
     return (
         <Grid container style={{display: 'flex', justifyContent: 'space-evenly'}}>
             <MyButton name={'all'} filter={filter} callback={() => changeFilter('all')}/>
@@ -21,4 +22,4 @@ export const FilterBlock = ({filter, todoID}: PropsType) => {
             <MyButton name={'completed'} filter={filter} callback={() => changeFilter('completed')}/>
         </Grid>
     )
-}
+})
