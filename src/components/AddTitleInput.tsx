@@ -7,7 +7,6 @@ type PropsType = {
 }
 
 export const AddTitleInput = React.memo(({callback}: PropsType) => {
-    console.log('AddTitleInput rendered')
     const [newTitle, setNewTitle] = useState('')
     const [error, setError] = useState(false)
     const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {

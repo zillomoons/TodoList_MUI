@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import React from "react";
-import {FilterValues} from "../App";
+import {FilterValues} from "../state/todoListsReducer";
 
 type PropsType={
     name: string

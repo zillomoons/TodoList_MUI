@@ -1,7 +1,6 @@
 import {MyButton} from "./Button";
 import {Grid} from "@mui/material";
-import { FilterValues } from "../App";
-import {ChangeFilterAC} from "../state/todoListsReducer";
+import {changeFilterAC, FilterValues} from "../state/todoListsReducer";
 import {useDispatch} from "react-redux";
 import React, {useCallback} from "react";
 
@@ -13,7 +12,7 @@ type PropsType={
 export const FilterBlock = React.memo(({filter, todoID}: PropsType) => {
     const dispatch = useDispatch();
     const changeFilter = useCallback((filter: FilterValues) => {
-        dispatch(ChangeFilterAC(todoID, filter));
+        dispatch(changeFilterAC(todoID, filter));
     }, [dispatch, todoID])
     return (
         <Grid container style={{display: 'flex', justifyContent: 'space-evenly'}}>
