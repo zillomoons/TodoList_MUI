@@ -8,13 +8,13 @@ import {createTodolist, getTodolists, TodoListEntityType} from "../state/todoLis
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "../store/store";
 import {TasksType} from "../state/tasksReducer";
+import {ErrorSnackbar} from "../components/errorSnackbar/ErrorSnackbar";
 
 
 export const App = React.memo(() => {
     const dispatch = useDispatch();
     const todoLists = useSelector<AppRootState, TodoListEntityType[]>(state => state.todoLists);
     const tasks = useSelector<AppRootState, TasksType>(state => state.tasks);
-
     useEffect(()=>{
         dispatch(getTodolists());
     }, [dispatch])
@@ -38,6 +38,7 @@ export const App = React.memo(() => {
     )
     return (
         <div className={'App'}>
+            <ErrorSnackbar />
             <Header/>
             <Container fixed>
                 <Grid container style={{padding: '10px'}}>

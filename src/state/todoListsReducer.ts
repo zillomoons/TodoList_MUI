@@ -1,5 +1,6 @@
 import {todolistAPI, TodolistType} from "../api/todolist-api";
 import {Dispatch} from "redux";
+import {setStatus} from "./app-reducer";
 
 const initialState: TodoListEntityType[] = [];
 
@@ -36,8 +37,10 @@ export const setTodolists = (todolists: TodolistType[]) => ({type: 'SET-TODOLIST
 
 // ThunkCreators
 export const getTodolists = () => async (dispatch: Dispatch) => {
+    dispatch(setStatus('loading'))
     const { data } = await todolistAPI.getTodolists();
     dispatch(setTodolists(data));
+    dispatch(setStatus('succeeded'))
 }
 export const deleteTodolist = (todoID: string) => async (dispatch: Dispatch) => {
     const { data } = await todolistAPI.deleteTodolist(todoID);
@@ -46,15 +49,19 @@ export const deleteTodolist = (todoID: string) => async (dispatch: Dispatch) => 
     }
 }
 export const createTodolist = (title: string) => async (dispatch: Dispatch) => {
+    dispatch(setStatus('loading'))
     const {data} = await todolistAPI.createTodolist(title);
     if (data.resultCode === 0) {
-        dispatch(addTodoAC(data.data.item))
+        dispatch(addTodoAC(data.data.item));
+        dispatch(setStatus('succeeded'));
     }
 }
 export const updateTodolist = (todoID: string, title: string) => async (dispatch: Dispatch) => {
+    dispatch(setStatus('loading'))
     const { data } = await todolistAPI.updateTodolist(todoID, title);
     if (data.resultCode === 0){
         dispatch(updateTodoAC(todoID, title));
+        dispatch(setStatus('succeeded'));
     }
 }
 

@@ -15,6 +15,10 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import {LinearProgress} from "@mui/material";
+import {useSelector} from "react-redux";
+import {AppRootState} from "../store/store";
+import {AppStatusType} from "../state/app-reducer";
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -57,6 +61,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export const Header = React.memo(() => {
+    const status = useSelector<AppRootState, AppStatusType>(state => state.app.status);
+
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
         React.useState<null | HTMLElement>(null);
@@ -157,7 +163,7 @@ export const Header = React.memo(() => {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
+            <AppBar position="relative">
                 <Toolbar>
                     <IconButton
                         size="large"
@@ -226,6 +232,7 @@ export const Header = React.memo(() => {
                         </IconButton>
                     </Box>
                 </Toolbar>
+                {status === 'loading' && <LinearProgress /> }
             </AppBar>
             {renderMobileMenu}
             {renderMenu}

@@ -2,6 +2,7 @@ import {TaskPriorities, tasksAPI, TaskStatuses, TaskType} from "../api/tasks-api
 import {addTodoAC, removeTodoAC, setTodolists} from "./todoListsReducer";
 import {Dispatch} from "redux";
 import {AppRootState} from "../store/store";
+import {setError, setStatus} from "./app-reducer";
 
 
 const initialState: TasksType = {};
@@ -52,8 +53,11 @@ export const setTasks = (todoID: string, tasks: TaskType[]) => ({type: 'SET-TASK
 
 // Thunk creators
 export const getTasks = (todoID: string) => async (dispatch: Dispatch) => {
+    dispatch(setStatus('loading'));
+
     const { data } = await tasksAPI.getTasks(todoID);
     dispatch(setTasks(todoID, data.items));
+    dispatch(setStatus('succeeded'));
 }
 export const deleteTask = (todoID: string, taskID: string) => async (dispatch: Dispatch) => {
     const { data } = await tasksAPI.deleteTask(todoID, taskID);
@@ -63,13 +67,23 @@ export const deleteTask = (todoID: string, taskID: string) => async (dispatch: D
     }
 }
 export const createTask = (todoID: string, title: string) => async (dispatch: Dispatch) => {
+    dispatch(setStatus('loading'))
     const {data} = await tasksAPI.createTask(todoID, title);
 
     if (data.resultCode === 0) {
         dispatch(addNewTaskAC(data.data.item));
+        dispatch(setStatus('succeeded'));
+    } else {
+        if (data.messages.length){
+            dispatch(setError(data.messages[0]));
+        }
+        dispatch(setError('Something went wrong'));
+        dispatch(setStatus('failed'));
     }
+
 }
 export const updateTask = (todoID: string, taskID: string, model: UpdateTaskEntityModelType) => async (dispatch: Dispatch, getState: () => AppRootState) => {
+    dispatch(setStatus('loading'))
     let tasks = getState().tasks
     let task = tasks[todoID].find(t => t.id === taskID);
 
@@ -85,6 +99,7 @@ export const updateTask = (todoID: string, taskID: string, model: UpdateTaskEnti
         });
         if (data.resultCode === 0){
             dispatch(updateTaskAC(todoID, taskID, model));
+            dispatch(setStatus('idle'));
         }
     }
 }
